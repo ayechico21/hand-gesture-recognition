@@ -24,6 +24,8 @@ if __name__ == "__main__":
     num_frames = 0  # numbers of frames
     left, top, right, bottom = 350, 30, 600, 270  # dimensions of roi
     bg = None  # initially no background
+    save = False  # flag to indicate if img captured should be saved or not
+    num_img = 0  # to give unique name to each img saved
 
     # keep taking feed until interrupted
     while True:
@@ -46,11 +48,11 @@ if __name__ == "__main__":
             blurred = cv2.GaussianBlur(gray, (5, 5), 0)  # Blur image to remove noise
 
             # Setting up background for background subtraction
-            if num_frames < 50:
+            if num_frames < 25:
                 bg = get_bg(blurred, bg)
                 if num_frames == 1:
                     print('Setting up background')
-                elif num_frames == 49:
+                elif num_frames == 24:
                     print('Setup Complete')
 
             else:
@@ -60,12 +62,22 @@ if __name__ == "__main__":
                     continue
                 else:
                     cv2.imshow('threshold', gesture)  # View hand gesture
+                    if save:
+                        cv2.imwrite('Images//two//img_' + str(num_img) + '.png', gesture)
+                        num_img += 1
 
             num_frames += 1
-            cv2.imshow('feed', feed)  # to view an feed
 
-            # waits for keyboard input for 1ms, breaks out of loop if 'q' is pressed
-            if(cv2.waitKey(1) == ord('q')):
+            cv2.imshow('feed', feed)  # to view an feed
+            key = cv2.waitKey(1)  # waits for keyboard input for 1ms
+
+            # breaks out of loop if 'q' is pressed
+            if key == ord('q') or num_img == 101 or num_frames == 300:
                 break
+
+            # Start saving the frames if 's' is pressed
+            if key == ord('s'):
+                save = True
+
     cap.release()  # release camera
     cv2.destroyAllWindows()  # destroy all windows so no window maybe running in background
