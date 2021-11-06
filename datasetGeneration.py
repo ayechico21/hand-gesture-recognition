@@ -72,7 +72,7 @@ if __name__ == "__main__":
             key = cv2.waitKey(1)  # waits for keyboard input for 1ms
 
             # breaks out of loop if 'q' is pressed
-            if key == ord('q') or num_img == 101 or num_frames == 300:
+            if key == ord('q') or num_img == 101 or num_frames == 500:
                 break
 
             # Start saving the frames if 's' is pressed
