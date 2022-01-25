@@ -1,2 +1,1 @@
-# 2015251-ML42-ManeeshCheema
-Mini Project Sem 5
+# Hand Gesture Recoginition System
